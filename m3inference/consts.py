@@ -20,6 +20,8 @@ USERNAME_LEN = 30
 SCREENNAME_LEN = 16
 DES_LEN = 200
 
+gender_class_mapper = {'man':0,'woman':1}
+
 # model dump parameter
 PRETRAINED_MODEL_ARCHIVE_MAP = {
     'full_model': ['https://nlp.stanford.edu/~zijwang/m3inference/full_model.mdl',
@@ -37,8 +39,13 @@ PRETRAINED_MODEL_MD5_MAP = {
 UNICODE_CATS = 'Cc,Zs,Po,Sc,Ps,Pe,Sm,Pd,Nd,Lu,Sk,Pc,Ll,So,Lo,Pi,Cf,No,Pf,Lt,Lm,Mn,Cn,Me,Mc,Nl,Zl,Zp,Cs,Co'.split(",")
 
 # language parameter
-LANGS = ['en', 'cs', 'fr', 'nl', 'ar', 'ro', 'bs', 'da', 'it', 'pt', 'no', 'es', 'hr', 'tr', 'de', 'fi', 'el', 'he',
-         'ru', 'bg', 'hu', 'sk', 'et', 'pl', 'lv', 'sl', 'lt', 'ga', 'eu', 'mt', 'cy', 'rm', 'is', 'un']
+# LANGS = ['en', 'cs', 'fr', 'fa', 'ar', 'ro', 'bs', 'da', 'it', 'pt', 'no', 'es', 'hr', 'tr', 'de', 'fi', 'el', 'he',
+#          'ru', 'bg', 'hu', 'sk', 'et', 'pl', 'lv', 'sl', 'lt', 'ga', 'eu', 'mt', 'cy', 'rm', 'is', 'un']
+LANGS = ['ar', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'en', 'es', 'et',
+       'fa', 'fi', 'finglish', 'fr', 'gu', 'he', 'hi', 'hr', 'hu', 'id',
+       'it', 'ja', 'ko', 'lt', 'lv', 'mk', 'nl', 'no', 'pa', 'pl', 'pt',
+       'ro', 'ru', 'si', 'sq', 'sv', 'ta', 'th', 'tl', 'tr', 'uk',
+       'undefined','und', 'ur', 'vi', 'zh-cn', 'zh-tw']
 LANGS = {k: v for v, k in enumerate(LANGS)}
 UNKNOWN_LANG = 'un'
 
