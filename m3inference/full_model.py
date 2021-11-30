@@ -31,7 +31,7 @@ class M3InferenceModel(nn.Module):
                                      num_layers=LSTM_LAYER, batch_first=True, bidirectional=True, dropout=0.25)
         self._init_dense(self.username_dense)
 
-        self.screenname_embed = nn.Embedding(EMBEDDING_INPUT_SIZE_ASCII, EMBEDDING_OUTPUT_SIZE_ASCII,
+        self.screenname_embed = nn.Embedding(EMBEDDING_INPUT_SIZE, EMBEDDING_OUTPUT_SIZE_ASCII,
                                              padding_idx=EMB['<empty>'])
         self.screenname_dense = nn.Linear(in_features=EMBEDDING_OUTPUT_SIZE_ASCII + EMBEDDING_OUTPUT_SIZE_LANGS,
                                           out_features=EMBEDDING_OUTPUT_SIZE_ASCII)
