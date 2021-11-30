@@ -6,36 +6,49 @@ import unicodedata
 from PIL import Image
 from torch.utils.data import *
 from torchvision import transforms
-
+import numpy as np 
 from .utils import *
-
+from .consts import *
+import os
 logger = logging.getLogger(__name__)
 
 
 class M3InferenceDataset(Dataset):
 
-    def __init__(self, data: list, use_img=True):
+    def __init__(self, data: list, use_img=True,label_level = None,image_dir='.'):
 
         self.tensor_trans = transforms.ToTensor()
         self.use_img = use_img
         self.data = []
+        self.label_level = label_level
+        self.image_dir = iamge_dir
         for entry in data:
             entry = DotDict(entry)
             if use_img:
                 self.data.append([entry.id, entry.lang, normalize_space(str(entry.name)),
                                   normalize_space(str(entry.screen_name)),
-                                  normalize_url(normalize_space(str(entry.description))), entry.img_path])
+                                  normalize_url(normalize_space(str(entry.description))), entry.img_path,entry.gender,entry.age])
             else:
                 self.data.append([entry.id, entry.lang, normalize_space(str(entry.name)),
                                   normalize_space(str(entry.screen_name)),
-                                  normalize_url(normalize_space(str(entry.description)))])
+                                  normalize_url(normalize_space(str(entry.description))),entry.gender,entry.age])
 
         logger.info(f'{len(self.data)} data entries loaded.')
 
     def __getitem__(self, idx):
-        data = self.data[idx]
-        return self._preprocess_data(data)
-
+        data = self.data[idx][:-2]
+        gender , age = self.data[idx][-2:]
+        gender = torch.nn.functional.one_hot(torch.tensor(gender_class_mapper[gender]),num_classes=2)
+        age = torch.nn.functional.one_hot(torch.tensor(age-1),num_classes=4)
+        if self.label_level == 'gender':
+            return self._preprocess_data(data),gender
+        elif self.label_level == 'age':
+            return self._preprocess_data(data),age
+        elif self.label_level == 'gender_age':
+            return self._preprocess_data(data),[gender,age]
+    # def __getitem__(self, idx):
+    #     data = self.data[idx]
+    #     return self._preprocess_data(data)
     def _preprocess_data(self, data):
         if self.use_img:
             _id, lang, username, screenname, des, img_path = data
@@ -65,7 +78,7 @@ class M3InferenceDataset(Dataset):
             if len(screenname) > SCREENNAME_LEN:
                 screenname = screenname[:SCREENNAME_LEN]
             screenname_len = len(screenname)
-            screenname_tensor[:screenname_len] = [ord(i) for i in screenname]
+            screenname_tensor[:screenname_len] = [EMB.get(i, len(EMB) + 1) for i in screenname]
 
         des_tensor = [0] * DES_LEN
         if des.strip(" ") == "":
@@ -88,7 +101,8 @@ class M3InferenceDataset(Dataset):
         return len(self.data)
 
     def _image_loader(self, image_name):
-        image = Image.open(image_name)
+        image = Image.open(os.path.join(self.image_dir,image_name))
+        image = image.resize((400,400))
         return self.tensor_trans(image)
 
 
