@@ -64,6 +64,9 @@ class M3Trainer:
 
                 running_loss += loss.item()
 
-        train_log = 'Epoch: {} loss: {}'.format(epoch+1, running_loss/i )
-        print(train_log)
-        self.logger.info(train_log)
+            train_log = 'Epoch: {} loss: {}'.format(epoch+1, running_loss/i )
+            print(train_log)
+            self.logger.info(train_log)
+    
+    def save_model(self,save_path):
+        torch.save(self.m3Model.state_dict(),save_path)
