@@ -6,7 +6,7 @@ from random import shuffle
 import hashlib
 import logging
 import numpy as np
-import pycld2 as cld2
+# import pycld2 as cld2
 import random
 import re
 import requests
@@ -54,9 +54,9 @@ def unpack_wrapper(sents, idx_unsort):
     return h
 
 
-def get_lang(sent):
-    lang = cld2.detect(''.join([i for i in sent if i.isprintable()]), bestEffort=True)[2][0][1]
-    return UNKNOWN_LANG if lang not in LANGS else lang
+# def get_lang(sent):
+#     lang = cld2.detect(''.join([i for i in sent if i.isprintable()]), bestEffort=True)[2][0][1]
+#     return UNKNOWN_LANG if lang not in LANGS else lang
 
 
 def normalize_url(sent):

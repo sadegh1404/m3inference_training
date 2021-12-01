@@ -21,7 +21,7 @@ class M3InferenceDataset(Dataset):
         self.use_img = use_img
         self.data = []
         self.label_level = label_level
-        self.image_dir = iamge_dir
+        self.image_dir = image_dir
         for entry in data:
             entry = DotDict(entry)
             if use_img:
