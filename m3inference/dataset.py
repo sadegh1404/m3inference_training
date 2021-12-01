@@ -101,7 +101,7 @@ class M3InferenceDataset(Dataset):
         return len(self.data)
 
     def _image_loader(self, image_name):
-        image = Image.open(os.path.join(self.image_dir,image_name))
+        image = Image.open(os.path.join(self.image_dir,'default.png'))
         image = image.resize((400,400))
         return self.tensor_trans(image)
 
