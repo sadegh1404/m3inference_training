@@ -21,7 +21,7 @@ class M3InferenceDataset(Dataset):
         self.use_img = use_img
         self.data = []
         self.label_level = label_level
-        self.image_dir = iamge_dir
+        self.image_dir = image_dir
         for entry in data:
             entry = DotDict(entry)
             if use_img:
@@ -101,7 +101,7 @@ class M3InferenceDataset(Dataset):
         return len(self.data)
 
     def _image_loader(self, image_name):
-        image = Image.open(os.path.join(self.image_dir,image_name))
+        image = Image.open(os.path.join(self.image_dir,'default.png'))
         image = image.resize((400,400))
         return self.tensor_trans(image)
 

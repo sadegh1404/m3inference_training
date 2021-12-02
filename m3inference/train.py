@@ -16,15 +16,15 @@ class M3Trainer:
         self.label_level = label
         self.train_data , self.test_data = self.train_val_test_split(self.data,train_split)
 
-        self.train_data_loader = DataLoader(M3InferenceDataset(self.train_data,label_level = label),batch_size=self.batch_size)
+        self.train_data_loader = DataLoader(M3InferenceDataset(self.train_data,label_level = label,image_dir='profile_image'),batch_size=self.batch_size)
         
-        self.test_data_loader = DataLoader(M3InferenceDataset(self.test_data,label_level = label),batch_size=self.batch_size)
+        self.test_data_loader = DataLoader(M3InferenceDataset(self.test_data,label_level = label,image_dir='profile_image'),batch_size=self.batch_size)
 
         self.m3Model = M3InferenceModel()
 
         self.loss_function = torch.nn.CrossEntropyLoss()
 
-        self.optimizer = torch.optim.Adam(self..m3Model.parameters())
+        self.optimizer = torch.optim.Adam(self.m3Model.parameters())
 
         self.logger = logging.getLogger(__name__)
 
@@ -61,9 +61,13 @@ class M3Trainer:
                 loss = self.loss_function(outputs,y)
                 loss.backward()
                 self.optimizer.spet()
-
+                if i%100 == : 
+                    print("Batch {} Epoch {} Loss {}".format(i,epoch+1,running_loss/i))
                 running_loss += loss.item()
-
-        train_log = 'Epoch: {} loss: {}'.format(epoch+1, running_loss/i )
-        print(train_log)
-        self.logger.info(train_log)
+                     
+            train_log = 'Epoch: {} loss: {}'.format(epoch+1, running_loss/i )
+            print(train_log)
+            self.logger.info(train_log)
+    
+    def save_model(self,save_path):
+        torch.save(self.m3Model.state_dict(),save_path)
