@@ -8,7 +8,7 @@ import torch
 
 class M3Trainer:
 
-    def __init__(self,train_data_path,batch_size=16,label='gender',train_split=0.8,validation=False):
+    def __init__(self,train_data_path,batch_size=16,label='gender',train_split=0.8,validation=False,image_dir='profile_image'):
 
         self.train_data_path = train_data_path
         self.data = self.read_json_file(train_data_path)
@@ -16,9 +16,9 @@ class M3Trainer:
         self.label_level = label
         self.train_data , self.test_data = self.train_val_test_split(self.data,train_split)
 
-        self.train_data_loader = DataLoader(M3InferenceDataset(self.train_data,label_level = label,image_dir='profile_image'),batch_size=self.batch_size)
+        self.train_data_loader = DataLoader(M3InferenceDataset(self.train_data,label_level = label,image_dir=image_dir),batch_size=self.batch_size)
         
-        self.test_data_loader = DataLoader(M3InferenceDataset(self.test_data,label_level = label,image_dir='profile_image'),batch_size=self.batch_size)
+        self.test_data_loader = DataLoader(M3InferenceDataset(self.test_data,label_level = label,image_dir=image_dir),batch_size=self.batch_size)
 
         self.m3Model = M3InferenceModel()
 
