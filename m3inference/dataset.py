@@ -104,9 +104,11 @@ class M3InferenceDataset(Dataset):
         try:
             image = Image.open(os.path.join(self.image_dir,image_name))
             image = image.resize((400,400))
+            image = image.convert(mode="RGB")
         except:
             image = Image.open(os.path.join(self.image_dir,'default.png'))
             image = image.resize((400,400))
+            image = image.convert(mode="RGB")
         
         return self.tensor_trans(image)
 
