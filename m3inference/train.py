@@ -61,9 +61,10 @@ class M3Trainer:
                 loss = self.loss_function(outputs,y)
                 loss.backward()
                 self.optimizer.spet()
-
+                if i%100 == : 
+                    print("Batch {} Epoch {} Loss {}".format(i,epoch+1,running_loss/i))
                 running_loss += loss.item()
-
+                     
             train_log = 'Epoch: {} loss: {}'.format(epoch+1, running_loss/i )
             print(train_log)
             self.logger.info(train_log)
