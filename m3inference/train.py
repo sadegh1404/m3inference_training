@@ -53,6 +53,7 @@ class M3Trainer:
 
                 x,y = batch 
                 y = y.double()
+                x,y = x.cuda(),y.cuda()
 
                 self.optimizer.zero_grad()
 
