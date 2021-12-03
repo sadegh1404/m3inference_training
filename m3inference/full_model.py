@@ -78,7 +78,11 @@ class M3InferenceModel(nn.Module):
 
     def forward(self, data, label=None):
 
-        lang, username, username_len, screenname, screenname_len, des, des_len, fig = data
+        if self.device == 'cuda':
+            lang, username, username_len, screenname, screenname_len, des, des_len, fig = data
+            lang, username, username_len, screenname, screenname_len, des, des_len, fig = lang.cuda(), username.cuda(), username_len.cuda(), screenname.cuda(), screenname_len.cuda(), des.cuda(), des_len.cuda(), fig.cuda()
+        else:
+            lang, username, username_len, screenname, screenname_len, des, des_len, fig = data
         self.batch_size = len(lang)
         self._init_hidden()
 

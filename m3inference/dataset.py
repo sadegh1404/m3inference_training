@@ -91,8 +91,8 @@ class M3InferenceDataset(Dataset):
             des_tensor[:des_len] = [EMB.get(i, EMB[unicodedata.category(i)]) for i in des]
 
         if self.use_img:
-            return lang_tensor, torch.LongTensor(username_tensor), username_len, torch.LongTensor(
-                screenname_tensor), screenname_len, torch.LongTensor(des_tensor), des_len, fig
+            return torch.tensor(lang_tensor), torch.LongTensor(username_tensor), torch.tensor(username_len), torch.LongTensor(
+                screenname_tensor), torch.tensor(screenname_len), torch.LongTensor(des_tensor), torch.tensor(des_len), fig
         else:
             return lang_tensor, torch.LongTensor(username_tensor), username_len, torch.LongTensor(
                 screenname_tensor), screenname_len, torch.LongTensor(des_tensor), des_len
