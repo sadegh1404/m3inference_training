@@ -49,13 +49,21 @@ class DataGenerator(keras.utils.Sequence):
         indexes = self.indexes[index*self.batch_size:(index+1)*self.batch_size]
 
         list_IDs_temp = [self.data[k] for k in indexes]
-        X_batch = [] 
+        lang_input = []
+        username_input = []
+        screen_name_input = [] 
+        des_input = [] 
+        image_input = [] 
         y_batch = []
         for dt in list_IDs_temp:
             x,y = self._preprocess_data(dt)
-            X_batch.append(x)
+            lang_input.append(x[0])
+            username_input.append(x[1])
+            screen_name_input.append(x[2])
+            des_input.append(x[3])
+            image_input.append(x[4])
             y_batch.append(y)
-        return np.array(X_batch),np.array(y_batch)
+        return np.array(lang_input),np.array(username_input),np.array(screen_name_input),np.array(des_input),np.array(image_input),np.array(y_batch)
 
     def _preprocess_data(self, data):
 
@@ -108,7 +116,7 @@ class DataGenerator(keras.utils.Sequence):
         elif self.label_level =='gender_age':
             y = keras.utils.to_categorical(gender,num_classes=2),keras.utils.to_categorical(age,num_classes=4)
         if self.use_img:
-            return [np.array(lang_tensor),np.array(username_tensor), np.array(screenname_tensor),np.array(des_tensor),np.array(fig)],y
+            return [lang_tensor,username_tensor, screenname_tensor,des_tensor,fig],y
         else:
             return [np.array(lang_tensor),np.array(username_tensor), np.array(screenname_tensor),np.array(des_tensor)],y
 
