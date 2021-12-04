@@ -63,7 +63,7 @@ class DataGenerator(keras.utils.Sequence):
             des_input.append(x[3])
             image_input.append(x[4])
             y_batch.append(y)
-        return np.array(lang_input),np.array(username_input),np.array(screen_name_input),np.array(des_input),np.array(image_input),np.array(y_batch)
+        return [np.array(lang_input),np.array(username_input),np.array(screen_name_input),np.array(des_input),np.array(image_input)],np.array(y_batch)
 
     def _preprocess_data(self, data):
 
