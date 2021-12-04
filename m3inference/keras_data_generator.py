@@ -31,7 +31,7 @@ class DataGenerator(keras.utils.Sequence):
                 self.data.append([entry.id, entry.lang, normalize_space(str(entry.name)),
                                   normalize_space(str(entry.screen_name)),
                                   normalize_url(normalize_space(str(entry.description))),entry.gender,entry.age])
-    
+        self.on_epoch_end()
     
     def on_epoch_end(self):
         'Updates indexes after each epoch'
@@ -101,10 +101,10 @@ class DataGenerator(keras.utils.Sequence):
             des_tensor[:des_len] = [EMB.get(i, EMB[unicodedata.category(i)]) for i in des]
 
         if self.label_level == 'gender':
-            y = keras.utils.to_categorical(gender,num_classes=2)
+            y = keras.utils.to_categorical(gender_class_mapper[gender],num_classes=2)
         
         elif self.label_level == 'age':
-            y = keras.utils.to_categorical(age,num_classes=4)
+            y = keras.utils.to_categorical(age-1,num_classes=4)
         elif self.label_level =='gender_age':
             y = keras.utils.to_categorical(gender,num_classes=2),keras.utils.to_categorical(age,num_classes=4)
         if self.use_img:
